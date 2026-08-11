@@ -29,7 +29,12 @@ int Programa::exibirArvore(const std::string &dir) {
                 it.depth()
             };
 
-            std::cout << std::format("{:>{}}{}\n", "", profundidade * 4, nome);
+            std::string prefixo;
+            for (int i = 0; i < profundidade; ++i) {
+                prefixo += "│   ";
+            }
+            prefixo += "├── ";
+            std::cout << std::format("{:>{}}{}\n", "", profundidade * 4, prefixo + nome);
         }
     } catch (fs::filesystem_error &e) {
         std::cerr << e.what() << std::endl;
