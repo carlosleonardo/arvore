@@ -4,7 +4,8 @@
 
 #ifndef ARVORE_PROGRAMA_H
 #define ARVORE_PROGRAMA_H
-#include <boost/program_options.hpp>
+
+#include <string>
 
 class Programa {
 public:
@@ -15,6 +16,8 @@ public:
     int executar(int argc, char **argv);
 
 private:
+    int m_total_arquivos{0};
+    int m_total_diretorios{0};
 };
 
 

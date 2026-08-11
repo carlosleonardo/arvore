@@ -7,6 +7,7 @@
 #include <format>
 #include <iostream>
 #include <filesystem>
+#include <boost/program_options.hpp>
 
 namespace po = boost::program_options;
 namespace fs = std::filesystem;
@@ -35,6 +36,11 @@ int Programa::exibirArvore(const std::string &dir) {
             }
             prefixo += "├── ";
             std::cout << std::format("{:>{}}{}\n", "", profundidade * 4, prefixo + nome);
+            if (fs::is_directory(it->path())) {
+                m_total_diretorios++;
+            } else {
+                m_total_arquivos++;
+            }
         }
     } catch (fs::filesystem_error &e) {
         std::cerr << e.what() << std::endl;
@@ -62,6 +68,8 @@ int Programa::executar(int argc, char **argv) {
         if (vm.contains("dir")) {
             const auto dir = vm["dir"].as<std::string>();
             exibirArvore(dir);
+            std::cout << std::format("\nTotal de diretórios: {}\n", m_total_diretorios);
+            std::cout << std::format("Total de arquivos: {}\n", m_total_arquivos);
         }
     } catch (po::error &e) {
         std::cerr << e.what() << std::endl;
