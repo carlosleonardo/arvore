@@ -23,9 +23,13 @@ int Programa::exibirArvore(const std::string &dir) {
     }
 
     try {
-        for (const auto &p: fs::recursive_directory_iterator(dir)) {
-            const auto nome = extrairNome(p.path().string());
-            std::cout << std::format("{:>10s}", nome) << std::endl;
+        for (auto it{fs::recursive_directory_iterator(dir)}; it != fs::recursive_directory_iterator(); ++it) {
+            const auto nome = extrairNome(it->path().string());
+            const auto profundidade{
+                it.depth()
+            };
+
+            std::cout << std::format("{:>{}}{}\n", "", profundidade * 4, nome);
         }
     } catch (fs::filesystem_error &e) {
         std::cerr << e.what() << std::endl;
