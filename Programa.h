@@ -7,7 +7,7 @@
 
 #include <string>
 
-class Programa {
+class Programa final {
 public:
     std::string extrairNome(const std::string &caminho);
 
