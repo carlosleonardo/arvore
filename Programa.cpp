@@ -34,6 +34,8 @@ int Programa::exibirArvore(const std::string &dir) {
             for (int i = 0; i < profundidade; ++i) {
                 prefixo += "│   ";
             }
+            // Em recursive_directory_iterator, avançar um "next" para checar último item
+            // pode invalidar o fluxo da iteração. Mantemos um conector seguro.
             prefixo += "├── ";
             std::cout << std::format("{:>{}}{}\n", "", profundidade * 4, prefixo + nome);
             if (fs::is_directory(it->path())) {
