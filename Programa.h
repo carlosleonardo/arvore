@@ -9,7 +9,7 @@
 
 class Programa final {
 public:
-    std::string extrairNome(const std::string &caminho);
+    std::string extrairNome(const std::string &caminho) const;
 
     int exibirArvore(const std::string &dir);
 

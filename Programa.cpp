@@ -12,7 +12,7 @@
 namespace po = boost::program_options;
 namespace fs = std::filesystem;
 
-std::string Programa::extrairNome(const std::string &caminho) {
+std::string Programa::extrairNome(const std::string &caminho) const {
     fs::path path(caminho);
     return path.filename().string();
 }
