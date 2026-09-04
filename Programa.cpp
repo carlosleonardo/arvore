@@ -12,11 +12,6 @@
 namespace po = boost::program_options;
 namespace fs = std::filesystem;
 
-std::string Programa::extrairNome(const std::string &caminho) {
-    fs::path path(caminho);
-    return path.filename().string();
-}
-
 int Programa::exibirArvore(const std::string &dir) {
     if (!fs::is_directory(dir)) {
         std::cerr << std::format("{} não é um diretório", dir) << std::endl;
@@ -24,13 +19,16 @@ int Programa::exibirArvore(const std::string &dir) {
     }
 
     try {
+        m_total_arquivos = 0;
+        m_total_diretorios = 0;
         for (auto it{fs::recursive_directory_iterator(dir)}; it != fs::recursive_directory_iterator(); ++it) {
-            const auto nome = extrairNome(it->path().string());
+            const auto nome{it->path().filename().string()};
             const auto profundidade{
                 it.depth()
             };
 
             std::string prefixo;
+            prefixo.reserve(profundidade * 4);
             for (int i = 0; i < profundidade; ++i) {
                 prefixo += "│   ";
             }

@@ -9,8 +9,6 @@
 
 class Programa final {
 public:
-    std::string extrairNome(const std::string &caminho);
-
     int exibirArvore(const std::string &dir);
 
     int executar(int argc, char **argv);
