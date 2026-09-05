@@ -12,33 +12,34 @@
 namespace po = boost::program_options;
 namespace fs = std::filesystem;
 
-std::string Programa::extrairNome(const std::string &caminho) const {
-    fs::path path(caminho);
-    return path.filename().string();
-}
-
 int Programa::exibirArvore(const std::string &dir) {
+    using namespace std::string_literals;
     if (!fs::is_directory(dir)) {
         std::cerr << std::format("{} não é um diretório", dir) << std::endl;
         return EXIT_FAILURE;
     }
 
     try {
+        m_total_arquivos = 0;
+        m_total_diretorios = 0;
+        std::string prefixo;
         for (auto it{fs::recursive_directory_iterator(dir)}; it != fs::recursive_directory_iterator(); ++it) {
-            const auto nome = extrairNome(it->path().string());
+            const auto &entrada{*it};
+            const auto nome = entrada.path().filename().string();
             const auto profundidade{
                 it.depth()
             };
 
-            std::string prefixo;
+            prefixo.clear();
+            prefixo.reserve(profundidade * 4 + 4); // Reservar espaço suficiente para o prefixo
             for (int i = 0; i < profundidade; ++i) {
-                prefixo += "│   ";
+                prefixo += "│   "s;
             }
             // Em recursive_directory_iterator, avançar um "next" para checar último item
             // pode invalidar o fluxo da iteração. Mantemos um conector seguro.
-            prefixo += "├── ";
+            prefixo += "├── "s;
             std::cout << std::format("{:>{}}{}\n", "", profundidade * 4, prefixo + nome);
-            if (fs::is_directory(it->path())) {
+            if (entrada.is_directory()) {
                 m_total_diretorios++;
             } else {
                 m_total_arquivos++;
