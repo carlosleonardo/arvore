@@ -23,7 +23,8 @@ int Programa::exibirArvore(const std::string &dir) {
         m_total_arquivos = 0;
         m_total_diretorios = 0;
         std::string prefixo;
-        for (auto it{fs::recursive_directory_iterator(dir)}; it != fs::recursive_directory_iterator(); ++it) {
+        for (auto it{fs::recursive_directory_iterator(dir, fs::directory_options::skip_permission_denied)};
+             it != fs::recursive_directory_iterator(); ++it) {
             const auto &entrada{*it};
             const auto nome = entrada.path().filename().string();
             const auto profundidade{
